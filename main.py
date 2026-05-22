@@ -5,8 +5,11 @@ from dotenv import load_dotenv
 import os
 import asyncio
 
-# --- My modules ---
+# --------- My modules ----------
 import llm
+import discord.fisherman
+import discord.face
+# -------------------------------
 
 # Load variables from .evn
 load_dotenv()
@@ -20,12 +23,12 @@ intents.members = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 
-# _____________________________
+# _______________________________
 # The code
 
 @bot.event
 async def on_message(message):
-    if message.author == bot.user:
+    if message.author.bot:
         return
 
     if bot.user.mentioned_in(message):

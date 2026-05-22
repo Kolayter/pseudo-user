@@ -9,6 +9,6 @@ SERVER_IP_LOCAL = os.getenv("SERVER_IP_LOCAL")
 
 client = Client(host=SERVER_IP)
 
-def TextToAI(messages, llm=LLM_MODEL, options=LLM_OPTIONS):
+def _text_to_ai(messages, llm=LLM_MODEL, options=LLM_OPTIONS):
     response = client.chat(model=llm, messages=messages, options=options)
     return response['message']['content']
