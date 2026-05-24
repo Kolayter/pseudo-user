@@ -1,3 +1,4 @@
+#region not main stuff
 import discord
 from discord.ext import commands
 import logging
@@ -11,7 +12,7 @@ import discord.fisherman
 import discord.face
 # -------------------------------
 
-# Load variables from .evn
+#region Load variables from .evn
 load_dotenv()
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 
@@ -21,10 +22,13 @@ intents.message_content = True
 intents.members = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
+#endregion
 
-
+#endregion
 # _______________________________
 # The code
+
+
 
 @bot.event
 async def on_message(message):
