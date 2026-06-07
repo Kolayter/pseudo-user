@@ -20,6 +20,7 @@ DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
+intents.reactions = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 #endregion
@@ -27,19 +28,5 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 #endregion
 # _______________________________
 # The code
-
-
-
-@bot.event
-async def on_message(message):
-    if message.author.bot:
-        return
-
-    if bot.user.mentioned_in(message):
-        async with message.channel.typing():
-            answer = await asyncio.to_thread(llm.TextToAI, [{'role': 'user', 'content': message.content}])
-            await message.channel.send(answer)
-
-    await bot.process_commands(message)
 
 bot.run(DISCORD_TOKEN)

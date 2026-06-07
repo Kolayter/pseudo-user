@@ -1,0 +1,10 @@
+{
+    "files.exclude": {
+        "__pycache__": true,
+        ".env": true,
+        ".gitignore": true,
+        ".venv": true,
+        "LICENSE": true,
+        "README.md": true
+    }
+}
