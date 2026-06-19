@@ -4,24 +4,25 @@ from discord.ext import commands
 
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
-@bot.event
-async def on_message(self, msg):
-    if msg.author == self.bot.user:
-        return
+class DiscordEvents(commands.Cog):
+    @commands.Cog.listener()
+    async def on_message(self, msg):
+        if msg.author == self.bot.user:
+            return
 
-    """
-     - короче, я закидываю сюда функцию от парсера и преобразовываю данные.
-     - Дальше мне нужно закинуть данные в очередь моих ивентов.
-    """
+        """
+        - короче, я закидываю сюда функцию от парсера и преобразовываю данные.
+        - Дальше мне нужно закинуть данные в очередь моих ивентов.
+        """
 
-    await event_manager.emit(
-        "raw_message",
-        user_id=msg.author.id,
-        username=msg.author.name,
-        display_name=msg.author.display_name,
-        channel=msg.channel,
-        message=msg.content
-    )
+        await event_manager.emit(
+            "raw_message",
+            user_id=msg.author.id,
+            username=msg.author.name,
+            display_name=msg.author.display_name,
+            channel=msg.channel,
+            message=msg.content
+        )
 
 # ===============================
 
