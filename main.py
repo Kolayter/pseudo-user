@@ -1,32 +1,30 @@
-#region not main stuff
-import discord
-from discord.ext import commands
-import logging
+import asyncio
 from dotenv import load_dotenv
 import os
-import asyncio
-
-# --------- My modules ----------
-import llm
-import discord.fisherman
-import discord.face
-# -------------------------------
-
-#region Load variables from .evn
+# ================================
+# >>>        My modules        <<<
+from modules.llm import text_to_ai
+from modules.event_manager import EventManager
+from modules.discord_stuff import DiscordOut, bot
+from modules.logging_settings import setup_logging
+# ================================
+# >>>          Start           <<<
 load_dotenv()
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 
-#Discord settings
-intents = discord.Intents.default()
-intents.message_content = True
-intents.members = True
-intents.reactions = True
 
-bot = commands.Bot(command_prefix="!", intents=intents)
-#endregion
+# ================================
+# >>>   The main cycle logic   <<<
+async def main():
 
-#endregion
-# _______________________________
-# The code
+    event_manager = EventManager()
+    discord_out = DiscordOut(bot=bot, manager=event_manager)
 
-bot.run(DISCORD_TOKEN)
+    async with bot:
+        await bot.start(DISCORD_TOKEN)
+
+
+# ===============================
+# -------------------------------
+if __name__ == "__main__":
+    asyncio.run(main())

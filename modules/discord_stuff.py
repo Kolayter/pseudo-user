@@ -2,18 +2,22 @@ import asyncio
 import discord
 from discord.ext import commands
 
+#  _____________________________
+# |=============================|
+# >>>         Events          <<<
+
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
 class DiscordEvents(commands.Cog):
+    def __init__(self, bot: commands.Bot):
+        self.bot = bot
+
+    # Get messages and send data to the event manager
     @commands.Cog.listener()
     async def on_message(self, msg):
+        log.info("Detected a message")
         if msg.author == self.bot.user:
             return
-
-        """
-        - короче, я закидываю сюда функцию от парсера и преобразовываю данные.
-        - Дальше мне нужно закинуть данные в очередь моих ивентов.
-        """
 
         await event_manager.emit(
             "raw_message",
@@ -24,7 +28,13 @@ class DiscordEvents(commands.Cog):
             message=msg.content
         )
 
-# ===============================
+    @commands.Cog.listener()
+    async def on_ready(self):
+        pass
+
+#  _____________________________
+# |=============================|
+# >>>      Output stuff       <<<
 
 class DiscordOut:
     def __init__(self, bot, manager):
