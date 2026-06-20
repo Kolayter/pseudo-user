@@ -1,6 +1,9 @@
 import asyncio
+import logging
 import discord
 from discord.ext import commands
+
+logger = logging.getLogger(__name__)
 
 #  _____________________________
 # |=============================|

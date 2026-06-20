@@ -1,6 +1,7 @@
 import asyncio
 from dotenv import load_dotenv
 import os
+import logging
 # ================================
 # >>>        My modules        <<<
 from modules.llm import text_to_ai
@@ -12,6 +13,9 @@ from modules.logging_settings import setup_logging
 load_dotenv()
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 
+setup_logging()
+logger = logging.getLogger(__name__)
+logger.info("psuedo-user started!")
 
 # ================================
 # >>>   The main cycle logic   <<<

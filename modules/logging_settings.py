@@ -7,9 +7,7 @@ class ConsoleFormatter(logging.Formatter):
     red = "\x1b[31;20m"
     bold_red = "\x1b[31;1m"
     reset = "\x1b[0m"
-    #log_format="%(asctime)s [%(levelname)-8s] %(message)s",
-    log_format = "%(asctime)s [%(levelname)-8s] %(message)s"
-    """Надо будет в формат внести ещё и имя модуля."""
+    log_format = "%(asctime)s [%(levelname)-8s] %(name)s: %(message)s"
 
     FORMATS = {
         logging.DEBUG: cyan + log_format + reset,
@@ -24,15 +22,20 @@ class ConsoleFormatter(logging.Formatter):
         formatter = logging.Formatter(log_fmt, datefmt="%H:%M:%S")
         return formatter.format(record)
 
-logger = logging.getLogger("psuedo-usre")
+logger = logging.getLogger("psuedo-user")
 logger.setLevel(logging.DEBUG)
 
 stdout_handler = logging.StreamHandler()
 stdout_handler.setFormatter(ConsoleFormatter())
 logger.addHandler(stdout_handler)
 
-logger.debug("Это дебаг-сообщение (циановый)")
-logger.info("Это обычная инфа (серый)")
-logger.warning("А это уже предупреждение! (желтый)")
-logger.error("Что-то пошло не так... (красный)")
-logger.critical("Всё сломалось! (жирный красный)")
+def setup_logging():
+    # Получаем корневой логгер, который управляет ВСЕМИ логами в приложении
+    root_logger = logging.getLogger()
+    root_logger.setLevel(logging.DEBUG)
+
+    # Проверяем, чтобы не дублировать хендлеры, если модуль импортируется дважды
+    if not root_logger.handlers:
+        stdout_handler = logging.StreamHandler()
+        stdout_handler.setFormatter(ConsoleFormatter())  # Твой красивый цветной формат
+        root_logger.addHandler(stdout_handler)
