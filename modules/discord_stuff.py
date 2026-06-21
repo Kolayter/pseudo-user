@@ -2,6 +2,7 @@ import asyncio
 import logging
 import discord
 from discord.ext import commands
+# ===============================
 
 logger = logging.getLogger(__name__)
 
@@ -18,10 +19,10 @@ class DiscordEvents(commands.Cog):
     # Get messages and send data to the event manager
     @commands.Cog.listener()
     async def on_message(self, msg):
-        log.info("Detected a message")
         if msg.author == self.bot.user:
             return
 
+        logger.info("Detected a new message.")
         await event_manager.emit(
             "raw_message",
             user_id=msg.author.id,
