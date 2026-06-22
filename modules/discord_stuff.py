@@ -10,40 +10,44 @@ logger = logging.getLogger(__name__)
 # |=============================|
 # >>>         Events          <<<
 
-bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
-
-class DiscordEvents(commands.Cog):
-    def __init__(self, bot: commands.Bot):
+class DiscordEvents:
+    def __init__(self, bot: commands.Bot, event_manager):
         self.bot = bot
+        self.manager = event_manager
+    
+        self._register_discord_events()
 
-    # Get messages and send data to the event manager
-    @commands.Cog.listener()
-    async def on_message(self, msg):
-        if msg.author == self.bot.user:
-            return
+    def _register_discord_events(self):
 
-        logger.info("Detected a new message.")
-        await event_manager.emit(
-            "raw_message",
-            user_id=msg.author.id,
-            username=msg.author.name,
-            display_name=msg.author.display_name,
-            channel=msg.channel,
-            message=msg.content
-        )
+        @self.bot.event
+        async def on_ready():
+            logger.info(f"Discord bot started sucses succesful!")
 
-    @commands.Cog.listener()
-    async def on_ready(self):
-        pass
+        # Get messages and send data to the event manager
+        @self.bot.event
+        async def on_message(msg):
+            if msg.author == self.bot.user:
+                return
+
+            logger.info("Detected a new message.")
+            await self.manager.emit(
+                "raw_message",
+                user_id=msg.author.id,
+                username=msg.author.name,
+                display_name=msg.author.display_name,
+                channel=msg.channel,
+                message=msg.content
+            )
+
 
 #  _____________________________
 # |=============================|
 # >>>      Output stuff       <<<
 
 class DiscordOut:
-    def __init__(self, bot, manager):
+    def __init__(self, bot, event_manager):
         self.bot = bot
-        self.manager = manager
+        self.manager = event_manager
         self.manager.listen("discord_answer", self.send_to_chat)
 
     async def send_to_chat(self, msg, channel):
