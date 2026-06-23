@@ -18,8 +18,6 @@ DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 
 # -------- Disocrd stuff ---------
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
-logging.getLogger('discord').setLevel(logging.INFO)
-
 # Damn, Discord spams all my console with DEBUG logs, I can't read it. There's the fix:
 logging.getLogger('discord').setLevel(logging.INFO)
 
