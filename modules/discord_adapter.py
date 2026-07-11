@@ -29,7 +29,7 @@ class DiscordEvents:
             if msg.author == self.bot.user:
                 return
 
-            logger.info("Detected a new message.")
+            logger.info(f"Detected a new message in {msg.channel}")
             await self.manager.emit(
                 "raw_message",
                 user_id=msg.author.id,
@@ -50,8 +50,8 @@ class DiscordOut:
         self.manager = event_manager
         self.manager.listen("discord_answer", self.send_to_chat)
 
-    async def send_to_chat(self, msg, channel):
-        channel = self.bot.get_channel(channel)
+    async def send_to_chat(self, msg, written_channel):
+        channel = self.bot.get_channel(written_channel)
         
         if channel:
             await channel.send(msg)
