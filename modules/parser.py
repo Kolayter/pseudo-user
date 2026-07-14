@@ -1,4 +1,7 @@
-from dataclasses import dataclass
+# Пока нигде не используется!
+
+from dataclasses import dataclass, field
+from typing import Optional, List
 
 # Хрен его знает, зачем мне он будет нужен.
 # Если в будущем будет нужна подобная организация, тогда буду использовать это.
@@ -7,24 +10,23 @@ from dataclasses import dataclass
 # Список ивентов которые я получаю. Тут описаны в классах их данные
 # которые я собираю и буду работать.
 @dataclass
-class OnMessage:
-    event_name: str
-    user_id: int
-    username: str
-    display_name: str
-    channel: Channel
-    message: str
+class CommonMessage:
+    platform: str
+    message_id: int
+    text: str
+    channel_id: int
+    author_id: int
 
-def parse_OnMessage(message):
-    return OnMessage(
-        event_name="raw_message",
-        user_id=message.author.id,
-        username=message.author.name,
-        display_name=message.author.display_name,
-        channel=message.channel,
-        message=message.content
-    )
+    reply_to: Optional[ReplyInfo] = None
 
-"""
-Условно тут дальше будут остальные функции для для ивентов.
-"""
+
+
+# def parse_OnMessage(message):
+#     return OnMessage(
+#         event_name="raw_message",
+#         user_id=message.author.id,
+#             username=message.author.name`,
+#             display_name=message.author.d`isplay_name,
+#         channel=message.channel,
+#         message=message.content
+#     )

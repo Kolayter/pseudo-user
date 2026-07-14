@@ -2,6 +2,8 @@ import asyncio
 import logging
 import discord
 from discord.ext import commands
+
+from modules.parser import CommonMessage
 # ===============================
 
 logger = logging.getLogger(__name__)
@@ -10,10 +12,11 @@ logger = logging.getLogger(__name__)
 # |=============================|
 # >>>         Events          <<<
 
-class DiscordEvents:
-    def __init__(self, bot: commands.Bot, event_manager):
+class DiscordIn:
+    def __init__(self, bot: commands.Bot, token, input_queue):
         self.bot = bot
-        self.manager = event_manager
+        self.token = token
+        self.queue = input_queue
     
         self._register_discord_events()
 
@@ -29,15 +32,23 @@ class DiscordEvents:
             if msg.author == self.bot.user:
                 return
 
-            logger.info(f"Detected a new message in {msg.channel}")
-            await self.manager.emit(
-                "raw_message",
-                user_id=msg.author.id,
-                username=msg.author.name,
-                display_name=msg.author.display_name,
-                channel=msg.channel,
-                message=msg.content
-            )
+            logger.info(f"Detected a new message in \'{msg.channel}\'.")
+            await self.queue.put(CommonMessage(
+                platform="Discord",
+                message_id=msg.id,
+                text=msg.content,
+                channel_id=msg.channel.id,
+                author_id=msg.author.id
+
+            ))
+    
+    async def start(self):
+        logger.info("The bot has started.")
+        await self.bot.start(self.token)
+    
+    async def stop(self):
+        logger.info("Stopping the bot.")
+        await self.bot.close()
 
 
 #  _____________________________
@@ -45,13 +56,6 @@ class DiscordEvents:
 # >>>      Output stuff       <<<
 
 class DiscordOut:
-    def __init__(self, bot, event_manager):
+    def __init__(self, bot, output_queue):
         self.bot = bot
-        self.manager = event_manager
-        self.manager.listen("discord_answer", self.send_to_chat)
 
-    async def send_to_chat(self, msg, written_channel):
-        channel = self.bot.get_channel(written_channel)
-        
-        if channel:
-            await channel.send(msg)
