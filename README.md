@@ -1,4 +1,4 @@
-# psuedo-user
+# pseudo-user
 <sup>A pet-project made by **Kolayter** 'cuz of having posibilites</sub>
 
 ---
@@ -13,11 +13,14 @@
 # 1. Overview;
 WIP
 
+---
 # 2. Installing;
 WIP
 
+---
 # 3. Possible problems;
 WIP
 
+---
 # 4. My comments.
 Even this WIP 'cuz I am sleepy now.
