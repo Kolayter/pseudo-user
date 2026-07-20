@@ -24,7 +24,7 @@ class DiscordIn:
 
         @self.bot.event
         async def on_ready():
-            logger.info(f"Discord bot started sucses successfully!")
+            logger.info("Discord bot started successfully!")
 
         # Get messages and send data to the event manager
         @self.bot.event
@@ -43,7 +43,7 @@ class DiscordIn:
             ))
     
     async def start(self):
-        logger.info("The bot has started.")
+        logger.info("Starting the bot...")
         await self.bot.start(self.token)
     
     async def stop(self):
@@ -60,6 +60,7 @@ class DiscordOut:
         self.bot = bot
         self.discord_output_queue = discord_output_queue
 
-    async def start():
-    
-
+    async def start(self):
+        logger.info("DiscordOut object has started.")
+        smth = await self.discord_output_queue.get()
+        # ...
