@@ -33,16 +33,17 @@ logger = logging.getLogger(__name__)
 async def main():
     logger.info(f"psuedo-user started!")
 
-    input_queue = asyncio.Queue()
-    output_queue = asyncio.Queue()
+    discord_input_queue = asyncio.Queue()
+    discord_output_queue = asyncio.Queue()
 
-    discord_in = DiscordIn(bot=bot, token=DISCORD_TOKEN, input_queue=input_queue)
-    discord_out = DiscordOut(bot=bot, output_queue=output_queue)
-    the_core = TheCore(input_queue=input_queue, output_queue=output_queue)
+    discord_in = DiscordIn(bot=bot, token=DISCORD_TOKEN, input_queue=discord_input_queue)
+    discord_out = DiscordOut(bot=bot, output_queue=discord_output_queue)
+    the_core = TheCore(discord_input_queue=discord_input_queue, discord_output_queue=discord_output_queue)
 
     await asyncio.gather(
         discord_in.start(),
-        the_core.start()
+        the_core.start(),
+        discord_out.start()
     )
 
 

@@ -3,7 +3,7 @@ import logging
 import discord
 from discord.ext import commands
 
-from modules.parser import CommonMessage
+from modules.dataclasses import MessageIn, MessageOut
 # ===============================
 
 logger = logging.getLogger(__name__)
@@ -13,14 +13,14 @@ logger = logging.getLogger(__name__)
 # >>>         Events          <<<
 
 class DiscordIn:
-    def __init__(self, bot: commands.Bot, token, discord_input_queue):
+    def __init__(self, bot: commands.Bot, token, input_queue) -> None:   
         self.bot = bot
         self.token = token
-        self.discord_input_queue = discord_input_queue
+        self.input_queue = input_queue
     
         self._register_discord_events()
 
-    def _register_discord_events(self):
+    def _register_discord_events(self) -> None:
 
         @self.bot.event
         async def on_ready():
@@ -33,8 +33,8 @@ class DiscordIn:
                 return
 
             logger.info(f"Detected a new message in \'{msg.channel}\'.")
-            await self.discord_input_queue.put(CommonMessage(
-                platform="Discord",
+            await self.input_queue.put(MessageIn(
+                platform=DISCORD,
                 message_id=msg.id,
                 text=msg.content,
                 channel_id=msg.channel.id,
@@ -56,11 +56,15 @@ class DiscordIn:
 # >>>      Output stuff       <<<
 
 class DiscordOut:
-    def __init__(self, bot, discord_output_queue):
+    def __init__(self, bot, output_queue):
         self.bot = bot
-        self.discord_output_queue = discord_output_queue
+        self.output_queue = output_queue
 
     async def start(self):
         logger.info("DiscordOut object has started.")
-        smth = await self.discord_output_queue.get()
-        # ...
+
+        queue_gotten = await self.output_queue.get()
+        self.output_queue.task_done()
+
+        while True:
+            pass

@@ -1,4 +1,5 @@
 import logging
+from modules.dataclasses import MessageOut
 
 logger = logging.getLogger(__name__)
 
@@ -14,4 +15,6 @@ class TheCore:
 
             logger.info("Discord message delivered into the Core.")
             self.discord_input_queue.task_done()
-            self.discord_output_queue.put(CommonMessage) # idk, review after sleep
+            self.discord_output_queue.put(MesssageOut(
+
+            )) # idk, review after sleep
