@@ -82,4 +82,11 @@ class DiscordOut:
 
     async def _send_message(self, action: MessageOut):
         channel = self.bot.get_channel(action.channel_id)
+        if channel is None:
+            try:
+                channel = await self.bot.fetch_channel(action.channel_id)
+            except (discord.NotFound, discord.Forbidden) as e: 
+                logger.warning(f"Couldn't fetch channel {action.channel_id}: {e}")
+                return
+
         await channel.send(action.text)

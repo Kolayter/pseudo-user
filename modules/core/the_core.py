@@ -19,5 +19,5 @@ class TheCore:
             await self.discord_output_queue.put(MessageOut(
                 platform=Platform.DISCORD,
                 text="pipeline works",
-                channel_id=1496915382718435331
+                channel_id=message.channel_id
             ))
