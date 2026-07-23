@@ -1,5 +1,6 @@
+# modules/core/the_core.py
 import logging
-from modules.dataclasses import MessageOut
+from modules.dataclasses import Platform, MessageOut
 
 logger = logging.getLogger(__name__)
 
@@ -15,6 +16,8 @@ class TheCore:
 
             logger.info("Discord message delivered into the Core.")
             self.discord_input_queue.task_done()
-            self.discord_output_queue.put(MesssageOut(
-
-            )) # idk, review after sleep
+            await self.discord_output_queue.put(MessageOut(
+                platform=Platform.DISCORD,
+                text="pipeline works",
+                channel_id=1496915382718435331
+            ))

@@ -1,3 +1,4 @@
+# modules/dataclasses.py
 from dataclasses import dataclass, field
 from typing import Optional, List
 from enum import Enum, auto
@@ -22,7 +23,7 @@ class MessageIn:
 class MessageOut:
     platform: Platform
     text: str
-    chanel: int
+    channel_id: int
 
-    reply_to: Optional(ReplyInfo) = None
+    reply_to: Optional[ReplyInfo] = None
 

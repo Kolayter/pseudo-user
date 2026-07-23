@@ -1,3 +1,4 @@
+# modules/telegram_adapter.py
 # Не, я типа реально не знаю чё тут писать. Этот файл пока на будущее.
 
 class TelegramIn:

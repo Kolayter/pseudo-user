@@ -1,3 +1,4 @@
+# modules/logging_settings.py
 import logging
 
 class ConsoleFormatter(logging.Formatter):
