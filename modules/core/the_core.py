@@ -16,7 +16,7 @@ class TheCore:
 
             logger.info("Discord message delivered into the Core.")
             self.discord_input_queue.task_done()
-            await self.discord_output_queue.put(MessageOut(
+            await self.discord_output_queue.put(MessageOut( 
                 platform=Platform.DISCORD,
                 text="pipeline works",
                 channel_id=message.channel_id
